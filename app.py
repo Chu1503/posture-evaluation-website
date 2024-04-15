@@ -11,7 +11,7 @@ def index():
 def run_pose_detection():
     selected_pose = request.form['selected_pose']  # Get the selected pose from the form data
     detect_pose(selected_pose)  # Pass the selected pose to detect_pose function
-    return 'Pose detection started.'
+    return 'Pose detection started. Please wait while a capture window opens.'
 
 if __name__ == '__main__':
     app.run(debug=True)
