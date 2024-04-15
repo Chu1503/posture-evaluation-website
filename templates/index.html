@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yoga Pose Detection</title>
+</head>
+<body>
+    <h1>Choose a Yoga Pose</h1>
+    <form action="/run_pose_detection" method="post">
+        <label for="pose">Select Pose:</label>
+        <select name="selected_pose" id="pose">
+            <option value="Warrior Pose">Warrior Pose</option>
+            <option value="Plank Pose">Plank Pose</option>
+        </select>
+        <br>
+        <button type="submit">Choose Pose</button>
+    </form>
+</body>
+</html>
