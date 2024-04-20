@@ -125,17 +125,17 @@ def detect_pose(selected_pose="Warrior Pose"):
                 pass
 
             # Render detections
-            if (160 < left_elbow_angle < 180):
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                    mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
-                                    mp_drawing.DrawingSpec(color=(0,255,0), thickness=2, circle_radius=2) 
-                                    )
+            # if (160 < left_elbow_angle < 180):
+            #     mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+            #                         mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
+            #                         mp_drawing.DrawingSpec(color=(0,255,0), thickness=2, circle_radius=2) 
+            #                         )
             
-            else:
-                mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
-                                    mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
-                                    mp_drawing.DrawingSpec(color=(0,0,255), thickness=2, circle_radius=2) 
-                                    )
+            # else:
+            mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
+                                 mp_drawing.DrawingSpec(color=(0,0,0), thickness=2, circle_radius=2), 
+                                mp_drawing.DrawingSpec(color=(0,0,255), thickness=2, circle_radius=2) 
+                                )
 
             # Calculate and display FPS
             current_time = time.time()
