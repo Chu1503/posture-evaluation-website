@@ -2,19 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yoga Pose Detection</title>
+    <title>Body Pose Detection</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+        #video {
+            width: 100%;
+            max-width: 640px; /* Limits the video size */
+            border-radius: 8px; /* Rounded corners */
+        }
+    </style>
+    <script>
+        function startVideo() {
+            const videoElement = document.getElementById('video');
+            videoElement.src = '/video_feed';
+        }
+
+        function stopVideo() {
+            const videoElement = document.getElementById('video');
+            videoElement.src = '';
+        }
+    </script>
 </head>
-<body>
-    <h1>Choose a Yoga Pose</h1>
-    <form action="/run_pose_detection" method="post">
-        <label for="pose">Select Pose:</label>
-        <select name="selected_pose" id="pose">
-            <option value="Warrior Pose">Warrior Pose</option>
-            <option value="Plank Pose">Plank Pose</option>
-        </select>
-        <br>
-        <button type="submit">Choose Pose</button>
-    </form>
+<body class="bg-gray-200">
+    <div class="flex flex-col items-center justify-center h-screen w-screen">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Yoga Pose Detection</h1>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2" onclick="startVideo()">Detect</button>
+        <img id="video" src="" alt="Video stream" class="shadow-lg mb-2">
+        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="stopVideo()">Stop</button>
+    </div>
 </body>
 </html>

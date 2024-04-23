@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
-from pose_detection import detect_pose
+from flask import Flask, render_template, Response
+import cv2
+import mediapipe as mp
 
 app = Flask(__name__)
 
@@ -7,11 +8,30 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/run_pose_detection', methods=['POST'])
-def run_pose_detection():
-    selected_pose = request.form['selected_pose']  # Get the selected pose from the form data
-    detect_pose(selected_pose)  # Pass the selected pose to detect_pose function
-    return 'Pose detection started. Please wait while a capture window opens.'
+def gen_frames():
+    camera = cv2.VideoCapture(0)
+    mp_pose = mp.solutions.pose
+    pose = mp_pose.Pose()
+
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            results = pose.process(image)
+            image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+            if results.pose_landmarks:
+                mp.solutions.drawing_utils.draw_landmarks(
+                    image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+            ret, buffer = cv2.imencode('.jpg', image)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(debug=True)
