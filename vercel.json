@@ -2,13 +2,8 @@
 	"version": 2,
 	"routes": [
 	  {
-		"src": "/static/(.*)",
-		"headers": { "cache-control": "s-maxage=31536000, immutable" },
-		"dest": "/static/$1"
-	  },
-	  {
 		"src": "/(.*)",
-		"dest": "app.py"
+		"dest": "/api/$1.py"
 	  }
 	]
   }
