@@ -18,25 +18,78 @@
             max-width: 640px; /* Limits the video size */
             border-radius: 8px; /* Rounded corners */
         }
+        .loader {
+            margin-top: 20px; /* Spacing above the loader */
+            margin-bottom: 20px; /* Spacing below the loader */
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
     <script>
         function startVideo() {
             const videoElement = document.getElementById('video');
+            const selectedPoseText = document.getElementById('selectedPose');
+            const poseDropdown = document.getElementById('poseDropdown');
+            const selectPoseLabel = document.getElementById('selectPoseLabel');
+            const selectedPose = poseDropdown.value;
+            const loader = document.getElementById('loader');
+            const detectButton = document.getElementById('detectButton');
+            const stopButton = document.getElementById('stopButton');
             videoElement.src = '/video_feed';
+            detectButton.style.display = 'none';
+            selectPoseLabel.style.display = 'none';
+            poseDropdown.style.display = 'none';
+            detectButton.innerText = 'Please wait...';
+            loader.style.display = 'inline-block';
+            stopButton.style.display = 'inline-block';
+            selectedPoseText.innerText = "Selected Pose: " + selectedPose;
+            setTimeout(function() {
+                detectButton.innerText = 'Detect';
+                loader.style.display = 'none';
+            }, 5000); // Example: set a timeout of 5 seconds to simulate the video loading time
         }
 
         function stopVideo() {
             const videoElement = document.getElementById('video');
+            const selectedPoseText = document.getElementById('selectedPose');
+            const detectButton = document.getElementById('detectButton');
+            const poseDropdown = document.getElementById('poseDropdown');
+            const selectPoseLabel = document.getElementById('selectPoseLabel');
             videoElement.src = '';
+            selectedPoseText.innerText = '';
+            document.getElementById('stopButton').style.display = 'none';
+            detectButton.style.display = 'inline-block';
+            selectPoseLabel.style.display = 'inline-block';
+            poseDropdown.style.display = 'inline-block';
         }
     </script>
 </head>
 <body class="bg-gray-200">
     <div class="flex flex-col items-center justify-center h-screen w-screen">
         <h1 class="text-3xl font-bold text-gray-800 mb-4">Yoga Pose Detection</h1>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2" onclick="startVideo()">Detect</button>
+        <div class="mb-4">
+            <label id="selectPoseLabel" for="poseDropdown" class="mr-2">Select Pose:</label>
+            <select id="poseDropdown" class="px-4 py-2 rounded">
+                <option value="Warrior Pose">Warrior Pose</option>
+                <option value="Tree Pose">Tree Pose</option>
+                <option value="Downward Dog Pose">Downward Dog Pose</option>
+                <option value="Cobra Pose">Cobra Pose</option>
+            </select>
+        </div>
+        <button id="detectButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2" onclick="startVideo()">Detect</button>
+        <p id="selectedPose" class="font-bold mb-2"></p>
+        <div id="loader" class="loader" style="display: none;"></div>
         <img id="video" src="" alt="Video stream" class="shadow-lg mb-2">
-        <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="stopVideo()">Stop</button>
+        <button id="stopButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="stopVideo()" style="display: none;">Stop</button>
     </div>
 </body>
 </html>
