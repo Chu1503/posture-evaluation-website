@@ -65,7 +65,54 @@ def gen_frames():
                 left_knee_angle = calculate_angle(left_hip, left_knee, left_ankle)
                 right_knee_angle = calculate_angle(right_hip, right_knee, right_ankle)
 
-                # Print or use angles as per your requirement
+                # Calculate accuracy for left elbow angle
+                left_elbow_accuracy = 100 - abs(170 - left_elbow_angle)
+
+                # Calculate accuracy for right elbow angle
+                right_elbow_accuracy = 100 - abs(170 - right_elbow_angle)
+
+                # Calculate accuracy for left knee angle
+                left_knee_accuracy = 100 - abs(170 - left_knee_angle)
+
+                # Calculate accuracy for right knee angle
+                right_knee_accuracy = 100 - abs(120 - right_knee_angle)
+
+                # Calculate overall accuracy
+                overall_accuracy = (right_elbow_accuracy + left_elbow_accuracy + left_knee_accuracy + right_knee_accuracy) / 4
+
+                # Visualize angle
+                font_scale = 1.0
+                frame_height, frame_width, _ = image.shape  # Get frame height and width
+
+                cv2.putText(image, f'{left_elbow_angle:.2f}', 
+                            (int(left_elbow[0] * frame_width), int(left_elbow[1] * frame_height)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, font_scale, (120, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, f'{right_elbow_angle:.2f}', 
+                            (int(right_elbow[0] * frame_width), int(right_elbow[1] * frame_height)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, font_scale, (120, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, f'{left_knee_angle:.2f}', 
+                            (int(left_knee[0] * frame_width), int(left_knee[1] * frame_height)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, font_scale, (120, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, f'{right_knee_angle:.2f}', 
+                            (int(right_knee[0] * frame_width), int(right_knee[1] * frame_height)), 
+                            cv2.FONT_HERSHEY_SIMPLEX, font_scale, (120, 255, 255), 2, cv2.LINE_AA)
+
+
+                # Display accuracies
+                cv2.putText(image, f'Overall Accuracy: {overall_accuracy:.2f}%', (10, 40),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+                cv2.putText(image, f'Left Elbow Accuracy: {left_elbow_accuracy:.2f}%', (10, 90),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+                cv2.putText(image, f'Right Elbow Accuracy: {right_elbow_accuracy:.2f}%', (10, 120),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+                cv2.putText(image, f'Left Knee Accuracy: {left_knee_accuracy:.2f}%', (10, 150),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+
+                cv2.putText(image, f'Right Knee Accuracy: {right_knee_accuracy:.2f}%', (10, 180),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
 
             ret, buffer = cv2.imencode('.jpg', image)
             frame = buffer.tobytes()
