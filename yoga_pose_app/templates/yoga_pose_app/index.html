@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yoga Pose Estimation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #videoContainer {
+            display: none;
+            max-width: 100%;
+            max-height: 80vh;
+            overflow: hidden;
+        }
+        #videoElement {
+            width: 100%;
+            height: auto;
+            object-fit: cover; /* Ensures the video covers the container */
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <button id="toggleButton" onclick="toggleWebcam()">Open Webcam</button>
+    </div>
+    <div id="videoContainer">
+        <img id="videoElement" src="{% url 'video_feed' %}" />
+    </div>
+
+    <script>
+        let webcamOpen = false;
+
+        function toggleWebcam() {
+            const videoContainer = document.getElementById('videoContainer');
+            const toggleButton = document.getElementById('toggleButton');
+            
+            webcamOpen = !webcamOpen;
+            if (webcamOpen) {
+                videoContainer.style.display = 'block';
+                toggleButton.textContent = 'Close Webcam';
+                document.getElementById('videoElement').src = "{% url 'video_feed' %}";
+            } else {
+                videoContainer.style.display = 'none';
+                toggleButton.textContent = 'Open Webcam';
+                document.getElementById('videoElement').src = "{% url 'video_feed' %}?close=true";
+            }
+        }
+    </script>
+</body>
+</html>
